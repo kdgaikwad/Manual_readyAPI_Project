@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="95bebaa0-aa50-4893-956e-f32386c487a2" created="2.8.2-m-SNAPSHOT" activeEnvironment="Default environment" name="Working with Properties" resourceRoot="${projectDir}" updated="3.3.1 2020-07-22T12:07:58Z" encryptionMode="Not encrypted" xmlns:con="http://eviware.com/soapui/config">
+  <con:description>This sample shows how to set values of properties at the project, test suite, and test case levels through 
+a Groovy script.
+
+Steps to execute example:
+
+1. Add any values to "Source test case property", "Source test suite property", and "Source project property".
+2. Run the project.
+3. Observe that the values have been passed to "Target test case property", "Target test suite property", and 
+    "Target project property" respectively.
+
+Details on Groovy script:
+
+The script retrieves values of the source properties at the test case, test suite and project levels and passes 
+them to respective target properties.</con:description>
+  <con:settings>
+    <con:setting id="ProjectSettings@hermesConfig">C:\Users\.hermes</con:setting>
+  </con:settings>
+  <con:interface xsi:type="con:RestService" id="4c3009cb-a9c8-4f5a-8a11-541211ae8aff" wadlVersion="http://wadl.dev.java.net/2009/02" name="REST Service 1" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints/>
+    <con:resource name="/v2/store/inventory" path="/v2/store/inventory" id="6fca066c-497c-4ca3-a859-2d022fb69b0c">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="GET" id="aa1e573a-346b-4032-a87e-d13455de4385" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:inv="https://petstore.swagger.io/v2/store/inventory">inv:Response</con:element>
+        </con:representation>
+        <con:request name="GET Request" id="ff386add-cb7a-4b7a-a2d2-d402f60f9f47" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>https://petstore.swagger.io</con:endpoint>
+          <con:request/>
+          <con:originalUri>https://petstore.swagger.io/v2/store/inventory</con:originalUri>
+          <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:parameters/>
+          <con:parameterOrder/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="c5d22e4d-108e-434f-9488-3802bc1bccd5" name="Properties">
+    <con:settings/>
+    <con:savedRecentRuns>1</con:savedRecentRuns>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="baf427b3-22f5-43fc-8a5a-ebc53a84e817" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Inputdata" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:savedRecentRuns>1</con:savedRecentRuns>
+      <con:testStep type="properties" name="InputData" id="101107f5-206d-42c6-b867-b3b8779d04c4">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:source/>
+          <con:target>C:/Users/Sarvadnya/Desktop/New folder (2)/New Text Document (2).txt.properties</con:target>
+          <con:properties>
+            <con:property>
+              <con:name>username</con:name>
+              <con:value>Kajal</con:value>
+            </con:property>
+            <con:property>
+              <con:name>password</con:name>
+              <con:value>1234</con:value>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="log_Inputdata" id="55a57201-59d6-4c93-a424-7097b6fc18d3">
+        <con:settings/>
+        <con:config>
+          <script>def username = context.expand( '${InputData#username}' )
+def password = context.expand( '${InputData#password}' )
+log.info(username);
+log.info(password);</script>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:testCase id="857a9f33-1369-4da1-a799-edd8d372b662" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="TestCase 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:savedRecentRuns>1</con:savedRecentRuns>
+      <con:testStep type="properties" name="Properties" id="fbaf69f7-186d-4e6a-b6c9-29e1d1c39ccb">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>Status</con:name>
+              <con:value>True</con:value>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="log_property" id="d3a46a8b-386a-4294-ab02-6fb12bb92dfb">
+        <con:settings/>
+        <con:config>
+          <script>def status = context.expand( '${Properties#Status}' )
+log.info("status")</script>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:securityTest id="ea0163e9-8b63-4ccd-9edd-d40bfdae02f5" testCaseId="857a9f33-1369-4da1-a799-edd8d372b662" name="SecurityTest 1" failSecurityTestOnScanErrors="true" skipDataSourceLoops="true" failOnError="true">
+        <con:settings/>
+        <con:testStepSecurityTest>
+          <con:testStepId>fbaf69f7-186d-4e6a-b6c9-29e1d1c39ccb</con:testStepId>
+          <con:testStepSecurityScan type="GroovySecurityScan" name="Custom Script" id="ab02e21f-083e-44bd-aa94-4e0e88efd070" applyForFailedStep="false" disabled="false" runOnlyOnce="true">
+            <con:settings/>
+            <con:config xsi:type="con:GroovySecurityScan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:executeScript/>
+            </con:config>
+            <con:assertion type="Sensitive Information Exposure" id="2a638dea-b15b-4e42-9978-a9614a55c5b5" name="Sensitive Information Exposure">
+              <con:configuration/>
+            </con:assertion>
+            <con:testStep xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:checkedParameters xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:executionStrategy xsi:nil="true" immutable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:strategy>ONE_BY_ONE</con:strategy>
+              <con:delay>100</con:delay>
+            </con:executionStrategy>
+          </con:testStepSecurityScan>
+          <con:testStepSecurityScan type="GroovySecurityScan" name="Custom Script" id="5cfb18c6-4363-4cd8-a704-ff7659d2df20" applyForFailedStep="false" disabled="false" runOnlyOnce="true">
+            <con:settings/>
+            <con:config xsi:type="con:GroovySecurityScan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:executeScript/>
+            </con:config>
+            <con:assertion type="Sensitive Information Exposure" id="d8447299-2cf5-479f-ba95-5b1e927081ab" name="Sensitive Information Exposure">
+              <con:configuration/>
+            </con:assertion>
+            <con:testStep xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:checkedParameters xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:executionStrategy xsi:nil="true" immutable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:strategy>ONE_BY_ONE</con:strategy>
+              <con:delay>100</con:delay>
+            </con:executionStrategy>
+          </con:testStepSecurityScan>
+        </con:testStepSecurityTest>
+        <con:testStepSecurityTest>
+          <con:testStepId>d3a46a8b-386a-4294-ab02-6fb12bb92dfb</con:testStepId>
+          <con:testStepSecurityScan type="GroovySecurityScan" name="Custom Script" id="8a6a364e-05e0-4281-8816-c29879789040" applyForFailedStep="false" disabled="false" runOnlyOnce="true">
+            <con:settings/>
+            <con:config xsi:type="con:GroovySecurityScan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:executeScript/>
+            </con:config>
+            <con:assertion type="Sensitive Information Exposure" id="7c92a62e-9e3c-48b2-bdf3-a5f73993a26b" name="Sensitive Information Exposure">
+              <con:configuration/>
+            </con:assertion>
+            <con:testStep xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:checkedParameters xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:executionStrategy xsi:nil="true" immutable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:strategy>ONE_BY_ONE</con:strategy>
+              <con:delay>100</con:delay>
+            </con:executionStrategy>
+          </con:testStepSecurityScan>
+          <con:testStepSecurityScan type="GroovySecurityScan" name="Custom Script" id="f12d1672-9c81-4eb8-ac97-c1d9c682e36a" applyForFailedStep="false" disabled="false" runOnlyOnce="true">
+            <con:settings/>
+            <con:config xsi:type="con:GroovySecurityScan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:executeScript/>
+            </con:config>
+            <con:assertion type="Sensitive Information Exposure" id="6050894b-ff24-47f7-a29f-06f99054552d" name="Sensitive Information Exposure">
+              <con:configuration/>
+            </con:assertion>
+            <con:testStep xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:checkedParameters xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:executionStrategy xsi:nil="true" immutable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:strategy>ONE_BY_ONE</con:strategy>
+              <con:delay>100</con:delay>
+            </con:executionStrategy>
+          </con:testStepSecurityScan>
+        </con:testStepSecurityTest>
+        <con:properties/>
+        <con:reportParameters/>
+      </con:securityTest>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:requirements/>
+  <con:properties>
+    <con:property>
+      <con:name>Source project property</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Target project property</con:name>
+      <con:value/>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting>
+    <con:reportTemplates/>
+    <con:xmlTemplates/>
+    <con:xmlTemplates/>
+    <con:parameters/>
+    <con:parameters/>
+  </con:reporting>
+  <con:reporting/>
+  <con:afterRunScript/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to SoapUI Pro tests
+
+// If hardcoding the token, uncomment and change line 5
+// def token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// def token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// def headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:authRepository/>
+  <con:tags/>
+</con:soapui-project>
