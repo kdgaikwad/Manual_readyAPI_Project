@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="684183e8-4d58-4680-a703-a69985261652" created="2.6.0" activeEnvironment="Default environment" name="Working with headers sample" resourceRoot="" updated="3.3.1 2020-07-22T12:07:58Z" encryptionMode="Not encrypted" xmlns:con="http://eviware.com/soapui/config">
+  <con:description>This sample project shows how to work with headers: remove, add and save their values to 
+test case properties using Groovy scripts. 
+This example emulates handling cookies: in the first response you will receive cookie values in 
+the "Set-Cookie" response header. In the subsequental requests, cookie values will be sent along 
+with the requests in the "Cookie" header. Based on the existence of the "Cookie" header, 
+the virtual service will send different responses.
+
+Note that you can achive the same behavior if you enable the Maintain HTTP session option for a test case.
+
+Steps to execute example:
+1. Run the project.
+2. Observe that: 
+- there are "Cookie" headers in "Request with cookies 1" and "Request with cookies 2". To see them, 
+   open a request and select the Headers tab in the Request editor;
+- the response body for the "Initial Request" test step differs from other responses;
+- the "Session Cookie" test case property was updated.
+
+Details on Groovy script:
+There are 3 Groovy scripts in the project:
+1. In the Groovy Script test step.
+    This script saves the value from the response header to the "Session Cookie" test case property.
+2. In the RequestFilter.filterRequest event handler.
+    This script adds (or updates) the "Cookie" header in "Request with cookies 1" and "Request with cookies 2". 
+    If there were several headers with the "Set-Cookie" name, it will combine the values into one string 
+    (; will be the delimiter).
+    Note that the Target property is set to "REST Request.*" which means that this event will be handled 
+    only for test steps which names start with REST Request
+3. In the virtual service's dispatch script.
+    This script determines what response will be sent. If there was no "Cookie" header in the request, 
+     then the First Response will be sent. But, if there was the "Cookie" header, the Subsequent Response 
+     will be sent.</con:description>
+  <con:settings>
+    <con:setting id="ProjectSettings@hermesConfig">C:\Users\.hermes</con:setting>
+  </con:settings>
+  <con:interface xsi:type="con:RestService" id="d94d8ae3-c08e-4bf0-b603-b490402d194f" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://community-open-weather-map.p.rapidapi.com" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints>
+      <con:endpoint>https://community-open-weather-map.p.rapidapi.com</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Daily" path="" id="596321ef-95f7-44e6-b769-5fdc7f1a6756">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Daily" id="5195aa1b-b68e-49f5-8515-28f3c96beabe" method="GET">
+        <con:settings/>
+        <con:parameters>
+          <con:parameter required="true">
+            <con:name>q</con:name>
+            <con:value/>
+            <con:style>QUERY</con:style>
+            <con:default/>
+          </con:parameter>
+        </con:parameters>
+        <con:representation type="FAULT">
+          <con:mediaType>application/json</con:mediaType>
+          <con:status>401</con:status>
+          <con:params/>
+          <con:element xmlns:dail="https://community-open-weather-map.p.rapidapi.com/forecast/daily">dail:Fault</con:element>
+        </con:representation>
+        <con:representation type="FAULT">
+          <con:mediaType>application/json; charset=utf-8</con:mediaType>
+          <con:status>400 404</con:status>
+          <con:params/>
+          <con:element xmlns:dail="https://community-open-weather-map.p.rapidapi.com/forecast/daily">dail:Fault</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json; charset=utf-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:dail="https://community-open-weather-map.p.rapidapi.com/forecast/daily">dail:Response</con:element>
+        </con:representation>
+        <con:request name="Request 1" id="4c390a13-7367-4872-95d5-feaf266043fb" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>https://community-open-weather-map.p.rapidapi.com/weather</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:parameters>
+            <con:entry key="q" value="London,uk"/>
+          </con:parameters>
+          <con:parameterOrder>
+            <con:entry>q</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="7b23c5e5-1b6f-49d1-a600-d72affe7f437" name="TestSuite 1">
+    <con:description>For information on the sample project and steps to run, right-click the project node in the Navigator on the left and select Project Settings from the context menu.</con:description>
+    <con:settings/>
+    <con:savedRecentRuns>1</con:savedRecentRuns>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="77252f5e-6d07-4809-ab63-2668ebd40695" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="add_Headers" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:savedRecentRuns>1</con:savedRecentRuns>
+      <con:testStep type="VirtRunnerTestStep" name="Run service" id="a615f72c-5928-4738-818a-3c52851ede92">
+        <con:settings/>
+        <con:config>
+          <url>localhost</url>
+          <server>Run</server>
+          <action>run</action>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="dynamically _add_headers" id="30a9d145-6777-4913-99a3-c54bb14e751d">
+        <con:settings/>
+        <con:config>
+          <script>import com.eviware.soapui.support.types.StringToStringMap
+
+def headers = new  StringToStringMap()
+def testSteps = context.testCase.getTestStepList()
+
+testSteps.each
+{
+	if(it.name == "weather")
+	{
+		headers.put("x-rapidapi-host","community-open-weather-map.p.rapidapi.com")
+		headers.put("X-RapidAPI-Key", "f7da22e3d2msh7aab20ea6456d28p129cd2jsndaf1ee069b11")
+		
+		it.getHttpRequest().setRequestHeaders(headers)
+		log.info("Headers added successfully")
+	}
+}</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="weather" id="869a050f-2a39-4a9e-9279-f62cb20b1996">
+        <con:settings/>
+        <con:config service="https://community-open-weather-map.p.rapidapi.com" resourcePath="" methodName="Daily" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="weather" id="a97d4dfc-1f4f-444f-8532-ab2c98f2f1d9" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="x-rapidapi-host" value="community-open-weather-map.p.rapidapi.com"/>
+  &lt;con:entry key="X-RapidAPI-Key" value="f7da22e3d2msh7aab20ea6456d28p129cd2jsndaf1ee069b11"/>
+&lt;/xml-fragment></con:setting>
+            </con:settings>
+            <con:endpoint>https://community-open-weather-map.p.rapidapi.com/weather</con:endpoint>
+            <con:request/>
+            <con:originalUri>https://community-open-weather-map.p.rapidapi.com/forecast/daily</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="44a284db-3e3f-4d3a-aa72-a871db313743" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters>
+              <con:entry key="q" value="London,uk"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>q</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="VirtRunnerTestStep" name="Stop Service" id="c6031bec-0cc1-4edf-84d3-7e592e74a6d0">
+        <con:settings/>
+        <con:config>
+          <url>localhost</url>
+          <server>Stop</server>
+          <action>run</action>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:securityTest id="6f534c26-ddef-495d-8140-0c0a32f9de39" testCaseId="77252f5e-6d07-4809-ab63-2668ebd40695" name="SecurityTest 1" failSecurityTestOnScanErrors="true">
+        <con:settings/>
+        <con:testStepSecurityTest>
+          <con:testStepId>869a050f-2a39-4a9e-9279-f62cb20b1996</con:testStepId>
+          <con:testStepSecurityScan type="FuzzingScan" name="Fuzzing Scan" id="6939b399-0244-47d5-908a-6a72838fea91" applyForFailedStep="false" disabled="false" runOnlyOnce="true">
+            <con:settings/>
+            <con:config xsi:type="con:FuzzerScan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:minimal>5</con:minimal>
+              <con:maximal>15</con:maximal>
+              <con:numberOfRequest>100</con:numberOfRequest>
+            </con:config>
+            <con:assertion type="Sensitive Information Exposure" id="45095c85-f2f6-4472-8fd4-422b29db792f" name="Sensitive Information Exposure">
+              <con:configuration/>
+            </con:assertion>
+            <con:testStep xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con:checkedParameters xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:parameters label="q" parameterName="q" xpath="" checked="true"/>
+            </con:checkedParameters>
+            <con:executionStrategy xsi:nil="true" immutable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <con:strategy>ALL_AT_ONCE</con:strategy>
+              <con:delay>100</con:delay>
+            </con:executionStrategy>
+          </con:testStepSecurityScan>
+        </con:testStepSecurityTest>
+        <con:properties/>
+        <con:reportParameters/>
+      </con:securityTest>
+      <con:breakPoints>
+        <con:testStepId>a615f72c-5928-4738-818a-3c52851ede92</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:restMockService id="8a900253-f1cc-41db-8a7e-b02d7b8bd42e" port="8088" path="/" host="localhost" name="http://localhost:8088 Virtual Service">
+    <con:settings/>
+    <con:properties/>
+    <con:constraints>
+      <con:congestion>0</con:congestion>
+      <con:inputBandwidth>-1</con:inputBandwidth>
+      <con:outputBandwidth>-1</con:outputBandwidth>
+      <con:maxThreadPoolCapacity>20</con:maxThreadPoolCapacity>
+      <con:coreThreadPoolCapacity>5</con:coreThreadPoolCapacity>
+      <con:virtError>
+        <con:start>0</con:start>
+        <con:endless>true</con:endless>
+      </con:virtError>
+    </con:constraints>
+    <con:headerValidator type="NONE"/>
+    <con:restMockAction name="/test" method="GET" resourcePath="/test" id="bbe3c3da-ca01-474e-8a90-71342e793491">
+      <con:settings/>
+      <con:defaultResponse>First Response</con:defaultResponse>
+      <con:dispatchStyle>SCRIPT</con:dispatchStyle>
+      <con:dispatchConfig/>
+      <con:dispatchPath>def CookieHeader = mockRequest.getRequestHeaders().get("Cookie")
+if( CookieHeader == null){
+    return "First Response"
+}
+else{
+    return "Subsequent Response"
+}</con:dispatchPath>
+      <con:dispatchXPath/>
+      <con:parameterDispatcherRuleContainer/>
+      <con:routeScript/>
+      <con:response name="First Response" id="f07d3e7d-056f-4ada-9315-6c92a665003b" httpResponseStatus="200" mediaType="application/json" compressedBodyContent="aced00057372002f636f6d2e657669776172652e736f617075692e696d706c2e737570706f72742e436f6d7072657373656456616c7565000b8b02c748eeab0200025a000a636f6d707265737365645b0004646174617400025b4278700070" dataSource="">
+        <con:settings/>
+        <con:responseContent>{"Response":"This response is returned when the request has no cookies"}</con:responseContent>
+        <con:header>
+          <con:name>Set-cookie</con:name>
+          <con:value>id=2222</con:value>
+        </con:header>
+        <con:header>
+          <con:name>Set-cookie</con:name>
+          <con:value>dom=example.com</con:value>
+        </con:header>
+      </con:response>
+      <con:response name="Subsequent Response" id="be713da3-5af4-40f2-83d7-5f935f4224b4" httpResponseStatus="200" compressedBodyContent="aced00057372002f636f6d2e657669776172652e736f617075692e696d706c2e737570706f72742e436f6d7072657373656456616c7565000b8b02c748eeab0200025a000a636f6d707265737365645b0004646174617400025b4278700070" mediaType="application/json" dataSource="">
+        <con:settings/>
+        <con:responseContent>{"Response":"This response is returned when the request has cookies"}</con:responseContent>
+      </con:response>
+    </con:restMockAction>
+  </con:restMockService>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:requirements/>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting>
+    <con:reportTemplates/>
+    <con:xmlTemplates/>
+    <con:xmlTemplates/>
+    <con:parameters/>
+    <con:parameters/>
+  </con:reporting>
+  <con:reporting/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest" target="Request with cookies.*">
+    <con:script>// Calling the request headers
+def cookie = request.parent.testCase.getProperty('Session Cookie').getValue().toString()
+def headers = request.requestHeaders
+
+if (headers.containsKey("Cookie")) {
+   headers.remove("Cookie")
+   headers.put('Cookie', cookie)
+   request.requestHeaders = headers
+}
+ else
+ {  
+   headers.put('Cookie', cookie)
+   request.requestHeaders = headers
+ }</con:script>
+  </con:eventHandlers>
+  <con:authRepository/>
+  <con:tags/>
+</con:soapui-project>
